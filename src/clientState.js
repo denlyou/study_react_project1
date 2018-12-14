@@ -66,25 +66,27 @@ export const resolvers = {
             });
             // saveNotes(cache);
             return newNote;
+        }, 
+        editNote: (_, { id, title, content }, { cache }) => {
+            console.log(id, title, content);
+            const noteId = cache.config.dataIdFromObject({
+              __typename: "Note",
+              id
+            });
+            const note = cache.readFragment({ fragment: NOTE_FRAGMENT, id: noteId });
+            const updatedNote = {
+              ...note,
+              title,
+              content
+            };
+            cache.writeFragment({
+              id: noteId,
+              fragment: NOTE_FRAGMENT,
+              data: updatedNote
+            });
+            // saveNotes(cache);
+            console.log(updatedNote);
+            return updatedNote;
         }
-    },
-    editNote: (_, { id, title, content }, { cache }) => {
-        const noteId = cache.config.dataIdFromObject({
-          __typename: "Note",
-          id
-        });
-        const note = cache.readFragment({ fragment: NOTE_FRAGMENT, id: noteId });
-        const updatedNote = {
-          ...note,
-          title,
-          content
-        };
-        cache.writeFragment({
-          id: noteId,
-          fragment: NOTE_FRAGMENT,
-          data: updatedNote
-        });
-        // saveNotes(cache);
-        return updatedNote;
     }
 };
