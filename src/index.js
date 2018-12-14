@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
+// 아폴로
+import { ApolloProvider } from "react-apollo";
+import client from "./apollo";
+// 스타일
+import "./globalStyles";
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const dom = (<ApolloProvider client={client}>
+<App />
+</ApolloProvider>);
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+ReactDOM.render( dom , document.getElementById("root") );
